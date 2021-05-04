@@ -5,11 +5,11 @@ variable "setup_cluster_config_path" {
 }
 
 variable "helm_operator_version" {
-  type       = string
+  type        = string
   description = "Helm operator chart version"
 }
 
 variable "fluxcd_version" {
-  type       = string
+  type        = string
   description = "Fluxcd chart version"
 }

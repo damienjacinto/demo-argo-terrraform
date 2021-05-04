@@ -11,3 +11,9 @@ resource "helm_release" "traefik" {
   version    = var.traefik_version
   namespace  = kubernetes_namespace.traefik.metadata[0].name
 }
+
+resource "kubectl_manifest" "ingressroute-dashboard" {
+  yaml_body = templatefile("${path.module}/templates/ingressroute-dashboard.yml", {
+    namespace = kubernetes_namespace.traefik.metadata[0].name
+  })
+}

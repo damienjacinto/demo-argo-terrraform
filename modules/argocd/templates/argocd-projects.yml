@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: ${name}
+  namespace: ${namespace}
+  annotations:
+    notifications.argoproj.io/subscribe.on-deployed.slack: ${serverChannel}
+    notifications.argoproj.io/subscribe.on-sync-failed.slack: ${serverChannel}
+    notifications.argoproj.io/subscribe.on-sync-running.slack: ${serverChannel}
+spec:
+  description: ${description}
+  destinations:
+  - namespace: ${destinationNamespace}
+    server: ${server}
+  sourceRepos:
+  - ${sourceRepos}

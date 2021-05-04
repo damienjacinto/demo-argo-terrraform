@@ -5,7 +5,7 @@ variable "traefik_cluster_config_path" {
 }
 
 variable "traefik_version" {
-  type       = string
+  type        = string
   description = "Traefik chart version"
 }
 
