@@ -49,4 +49,5 @@ module "argocd" {
   argoworkflow_version          = local.config.argoworkflow_version
   argoworkflow_image_version    = local.config.argoworkflow_image_version
   argoworkflow_admin_rule       = local.config.argoworkflow_admin_rule
+  argocd_repositories           = local.config.argocd_repositories
 }

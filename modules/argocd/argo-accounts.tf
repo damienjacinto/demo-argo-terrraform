@@ -218,3 +218,32 @@ resource "kubernetes_cluster_role_binding" "argo_users" {
     namespace = kubernetes_namespace.argo.metadata[0].name
   }
 }
+
+resource "kubernetes_role" "argo_extra" {
+  metadata {
+    name      = "argo-extra"
+    namespace = kubernetes_namespace.argo.metadata[0].name
+  }
+  rule {
+    api_groups = [""]
+    resources  = ["pods", "pods/exec", "pods/log"]
+    verbs      = ["get", "list", "watch", "delete"]
+  }
+}
+
+resource "kubernetes_role_binding" "argo_extra" {
+  metadata {
+    name      = "argo-extra"
+    namespace = kubernetes_namespace.argo.metadata[0].name
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "Role"
+    name      = kubernetes_role.argo_extra.metadata[0].name
+  }
+  subject {
+    kind      = "ServiceAccount"
+    name      = "argo"
+    namespace = kubernetes_namespace.argo.metadata[0].name
+  }
+}

@@ -1,5 +1,7 @@
 installCRDs: false
 server:
+  extraArgs:
+  - --insecure
   ingress:
     enabled: true
     annotations:
@@ -46,14 +48,12 @@ server:
       logoutURL: ${url}
     repositories: |
 %{~ for repo in repositories }
-    - type: git
-      url: ${repo}
-      passwordSecret:
-        key: password
-        name: ${repoSecret}
-      usernameSecret:
-        key: username
-        name: ${repoSecret}
+      - type: git
+        url: ${repo}
+        passwordSecret:
+          key: password
+          name: ${repoSecret}
+        usernameSecret:
+          key: username
+          name: ${repoSecret}
 %{~ endfor }
-  extraArgs:
-    - --insecure

@@ -14,15 +14,8 @@ output "data" {
     argo_notification_icon     = "https://cdn.pixabay.com/photo/2016/06/29/16/06/potato-1487142_960_720.png"
     argoworkflow_admin_rule    = "email in [\"damien.jacinto@gmail.com\"]"
     argo_notification_version  = "1.2.0"
+    argocd_repositories        = ["https://github.com/damienjacinto/demo-workflows"]
     argocd_projects = [
-      {
-        name          = "argo-workflow"
-        description   = "Argo workflow installation"
-        namespace     = "argo"
-        server        = "https://kubernetes.default.svc"
-        sourceRepos   = "https://github.com/damienjacinto/demo-argo-workflow"
-        serverChannel = "deploy-argo"
-      },
       {
         name          = "workflows-template"
         description   = "Workflows template installation"
