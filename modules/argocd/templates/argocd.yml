@@ -1,4 +1,7 @@
 installCRDs: false
+controller:
+  args:
+    appResyncPeriod: 30
 server:
   extraArgs:
   - --insecure
