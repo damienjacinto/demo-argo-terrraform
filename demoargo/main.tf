@@ -13,6 +13,8 @@ locals {
   github_secret          = var.GITHUB_SECRET
   github_token           = var.GITHUB_TOKEN
   github_username        = var.GITHUB_USERNAME
+  slack_deploy_secret = var.SLACK_DEPLOY_SECRET
+  slack_signin_secret = var.SLACK_SIGNIN_SECRET
 }
 
 module "setup_cluster" {
@@ -50,4 +52,6 @@ module "argocd" {
   argoworkflow_image_version    = local.config.argoworkflow_image_version
   argoworkflow_admin_rule       = local.config.argoworkflow_admin_rule
   argocd_repositories           = local.config.argocd_repositories
+  argoevent_slack_deploy_secret = local.slack_deploy_secret
+  argoevent_slack_signin_secret = local.slack_signin_secret
 }

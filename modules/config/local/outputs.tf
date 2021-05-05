@@ -11,10 +11,10 @@ output "data" {
     argoworkflow_url           = "argoworkflow.kubernetes.local"
     argoworkflow_version       = "0.16.7"
     argocd_auth0_scopeKey      = "http://argocd.kubernetes/groups"
-    argo_notification_icon     = "https://cdn.pixabay.com/photo/2016/06/29/16/06/potato-1487142_960_720.png"
+    argo_notification_icon     = "https://i.ibb.co/yNPddBk/patate.jpg"
     argoworkflow_admin_rule    = "email in [\"damien.jacinto@gmail.com\"]"
     argo_notification_version  = "1.2.0"
-    argocd_repositories        = ["https://github.com/damienjacinto/demo-workflows"]
+    argocd_repositories        = ["https://github.com/damienjacinto/demo-workflows", "https://github.com/damienjacinto/demo-argo-events"]
     argocd_projects = [
       {
         name          = "workflows-template"
@@ -22,6 +22,14 @@ output "data" {
         namespace     = "argo"
         server        = "https://kubernetes.default.svc"
         sourceRepos   = "https://github.com/damienjacinto/demo-workflows"
+        serverChannel = "deploy-argo"
+      },
+      {
+        name          = "argo-events"
+        description   = "Slack event installation"
+        namespace     = "argo-events"
+        server        = "https://kubernetes.default.svc"
+        sourceRepos   = "https://github.com/damienjacinto/demo-argo-events"
         serverChannel = "deploy-argo"
       }
     ]

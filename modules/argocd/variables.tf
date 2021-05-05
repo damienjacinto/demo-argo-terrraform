@@ -108,3 +108,15 @@ variable "argoworkflow_admin_rule" {
   type        = string
   description = "Argoworkflow admin rule for sso rbac"
 }
+
+variable "argoevent_slack_deploy_secret" {
+  type        = string
+  description = "slack command deploy secret"
+  sensitive   = true
+}
+
+variable "argoevent_slack_signin_secret" {
+  type        = string
+  description = "slack command signin secret"
+  sensitive   = true
+}

@@ -46,3 +46,15 @@ variable "GITHUB_USERNAME" {
   sensitive   = true
 }
 
+variable "SLACK_DEPLOY_SECRET" {
+  type        = string
+  description = "slack command deploy secret"
+  sensitive   = true
+}
+
+variable "SLACK_SIGNIN_SECRET" {
+  type        = string
+  description = "slack command signin secret"
+  sensitive   = true
+}
+
