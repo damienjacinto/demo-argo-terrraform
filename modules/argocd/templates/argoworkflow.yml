@@ -1,0 +1,39 @@
+images:
+  tag: ${imageVersion}
+singleNamespace: true
+workflow:
+  serviceAccount:
+    create: true
+  rbac:
+    create: true
+controller:
+  workflowNamespaces:
+    - argo
+  containerRuntimeExecutor: k8sapi
+server:
+  extraArgs:
+  - --auth-mode=sso
+  - --secure=false
+  sso:
+    issuer: ${issuer}
+    sessionExpiry: 240h
+    clientId:
+      name: ${auth0Secret}
+      key: clientid-key
+    clientSecret:
+      name: ${auth0Secret}
+      key: secret-key
+    redirectUrl: http://${url}/oauth2/callback
+    scopes:
+    - email
+    - emailVerified
+    - groups
+    rbac:
+      enabled: true
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    hosts:
+    - ${url}

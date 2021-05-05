@@ -1,0 +1,67 @@
+installCRDs: false
+controller:
+  args:
+    appResyncPeriod: 30
+server:
+  extraArgs:
+  - --insecure
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    labels: {}
+    hosts:
+    - ${url}
+  rbacConfig:
+    policy.default: role:no-group
+    policy.csv: |
+      p, role:org-deploy, clusters, get, *, allow
+      p, role:org-deploy, projects, get, *, allow
+      p, role:org-deploy, repositories, get, *, allow
+      p, role:org-deploy, applications, get, */app-*, allow
+      p, role:org-deploy, applications, sync, */app-*, allow
+      p, role:org-deploy, applications, action, */app-*, allow
+      p, role:org-deploy, applications, override, */app-*, allow
+      p, role:org-deploy, applications, delete, */app-*, deny
+      p, role:no-group, *, *, *, deny
+      g, argo-admins, role:admin
+      g, argo-deploy-user, role:org-deploy
+    scopes: '[${scopeKey}, email]'
+  config:
+    url: http://${url}
+    admin.enabled: "false"
+    resource.customizations: |
+      extensions/Ingress:
+        health.lua: |
+          hs = {}
+          hs.status = "Healthy"
+          return hs
+      networking.k8s.io/Ingress:
+        health.lua: |
+          hs = {}
+          hs.status = "Healthy"
+          return hs
+    oidc.config: |
+      name: Auth0
+      issuer: ${issuer}
+      clientID: ${clientId}
+      clientSecret: ${clientSecret}
+      requestedScopes:
+      - openid
+      - profile
+      - email
+      - '${scopeKey}'
+      requestedIDTokenClaims: {"groups": {"essential": true}}
+      logoutURL: ${url}
+    repositories: |
+%{~ for repo in repositories }
+      - type: git
+        url: ${repo}
+        passwordSecret:
+          key: password
+          name: ${repoSecret}
+        usernameSecret:
+          key: username
+          name: ${repoSecret}
+%{~ endfor }
