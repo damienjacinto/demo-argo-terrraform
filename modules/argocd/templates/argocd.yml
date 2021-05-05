@@ -16,11 +16,11 @@ server:
       p, role:org-deploy, clusters, get, *, allow
       p, role:org-deploy, projects, get, *, allow
       p, role:org-deploy, repositories, get, *, allow
-      p, role:org-deploy, applications, get, */yeap-*, allow
-      p, role:org-deploy, applications, sync, */yeap-*, allow
-      p, role:org-deploy, applications, action, */yeap-*, allow
-      p, role:org-deploy, applications, override, */yeap-*, allow
-      p, role:org-deploy, applications, delete, */yeap-*, deny
+      p, role:org-deploy, applications, get, */app-*, allow
+      p, role:org-deploy, applications, sync, */app-*, allow
+      p, role:org-deploy, applications, action, */app-*, allow
+      p, role:org-deploy, applications, override, */app-*, allow
+      p, role:org-deploy, applications, delete, */app-*, deny
       p, role:no-group, *, *, *, deny
       g, argo-admins, role:admin
       g, argo-deploy-user, role:org-deploy
@@ -30,6 +30,11 @@ server:
     admin.enabled: "false"
     resource.customizations: |
       extensions/Ingress:
+        health.lua: |
+          hs = {}
+          hs.status = "Healthy"
+          return hs
+      networking.k8s.io/Ingress:
         health.lua: |
           hs = {}
           hs.status = "Healthy"
